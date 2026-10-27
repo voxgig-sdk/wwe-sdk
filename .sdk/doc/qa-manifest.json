@@ -1,0 +1,19 @@
+{
+  "files": [
+    "SUMMARY.md"
+  ],
+  "config": ".sdk/doc/qa/vale.ini",
+  "routes": {},
+  "quoted": {
+    "SUMMARY.md": [
+      "Background image path.",
+      "Empty string in probes.",
+      "Playlist title, for example &#39;Trending videos on WWE.com&#39;.",
+      "Site-relative profile path, for example &#39;/superstars/curthennig&#39;.",
+      "Successful response",
+      "Superstar display name in upper case, for example &#39;&quot;MR. PERFECT&quot; CURT HENNIG&#39;.",
+      "Unofficial: the JSON endpoints behind `www.wwe.com`, as wrapped by the Swift client https://github.com/l0v3m0n3y/wwe (src/wwe.swift). Not a documented or supported public API; WWE can change it at any time. Endpoints and parameter order were taken from that client; every schema was taken from live GET probes on 2026-10-23 (no key needed). Only endpoints on https://www.wwe.com are modelled because a spec has one server: the client&#39;s search (https://search.wwe.com/api/v1/search, which also worked keyless) and VOD entitlement (https://vod.wwe.com/v1/entitlement/&#123;id&#125;, not probed) calls are omitted. Field types are as observed and are inconsistent between endpoints (nid is a string in highlight-videos and gallery-related but an integer in the playlists). Unverified: the effect of non-zero playlistId/offset values, and the item shape of the always-empty sponsors arrays. Videos in the probes were geo-tagged with `country_logic` and the highlight titles came back in Arabic, so content may vary by requester location.",
+      "WWE.com website"
+    ]
+  }
+}

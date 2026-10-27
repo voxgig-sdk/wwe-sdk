@@ -1,0 +1,48 @@
+# Generated from the API definition and overwritten on every build: do not
+# edit this file. Put customizations in the guide entry file, which includes
+# this one and overrides its defaults:
+#   guide.aontu
+
+guide: {
+  metrics: count: entity: 3
+  metrics: count: path: 5
+  metrics: count: method: 5
+
+  entity: gallery: {
+    path: "/api/gallery-related/{nodeId}/{itemsPerPage}/{itemsOffset}": {
+      rename: param: "itemsOffset": *"items_offset"
+      rename: param: "itemsPerPage": *"items_per_page"
+      rename: param: "nodeId": *"node_id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: superstar: {
+    path: "/superstar/talent": {
+      action: "talent": {}
+      op: list: method: *GET
+    }
+  }
+
+  entity: video: {
+    path: "/api/featured-videos/{videoId}/{playlistId}": {
+      rename: param: "playlistId": *"playlist_id"
+      rename: param: "videoId": *"video_id"
+      op: load: method: *GET
+    }
+    path: "/api/highlight-videos/{videoId}/{playlistId}": {
+      rename: param: "playlistId": *"playlist_id"
+      rename: param: "videoId": *"video_id"
+      op: load: method: *GET
+    }
+    path: "/api/video-playlist/{videoId}/{playlistId}/{playlistOffset}/{parentPlaylistId}/{videoOffset}": {
+      rename: param: "parentPlaylistId": *"parent_playlist_id"
+      rename: param: "playlistId": *"playlist_id"
+      rename: param: "playlistOffset": *"playlist_offset"
+      rename: param: "videoId": *"video_id"
+      rename: param: "videoOffset": *"video_offset"
+      op: load: method: *GET
+    }
+  }
+
+}

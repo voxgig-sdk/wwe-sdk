@@ -1,0 +1,63 @@
+# Entity: superstar
+
+main: kit: entity: superstar: {
+
+  alias: field: {}
+
+  fields: {
+    url: {
+      h: "Url"
+      n: "url"
+      r: true
+      sh: "Site-relative profile path, e.g."
+      t: "`$STRING`"
+    }
+    value: {
+      h: "Value"
+      n: "value"
+      r: true
+      sh: "Superstar display name in upper case, e.g."
+      t: "`$STRING`"
+    }
+  }
+
+  name: "superstar"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /superstar/talent"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/superstar/talent"
+          q: {
+            "$action": "talent"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "superstar"
+            }
+            {
+              lit: "talent"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

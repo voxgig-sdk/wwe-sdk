@@ -1,0 +1,41 @@
+{
+  "existing": {
+    "gallery": {
+      "GALLERY00": {
+        "galleries": [],
+        "id": "GALLERY00",
+        "items_offset": "ITEMS_OFFSET01",
+        "items_per_page": "ITEMS_PER_PAGE01",
+        "node_id": "NODE01"
+      },
+      "GALLERY01": {
+        "galleries": [],
+        "id": "GALLERY01",
+        "items_offset": "ITEMS_OFFSET01",
+        "items_per_page": "ITEMS_PER_PAGE01",
+        "node_id": "NODE01"
+      },
+      "GALLERY02": {
+        "galleries": [],
+        "id": "GALLERY02",
+        "items_offset": "ITEMS_OFFSET01",
+        "items_per_page": "ITEMS_PER_PAGE01",
+        "node_id": "NODE01"
+      }
+    }
+  },
+  "new": {
+    "gallery": {
+      "gallery_ref01": {
+        "galleries": []
+      }
+    }
+  },
+  "requests": {
+    "GET /api/gallery-related/{nodeId}/{itemsPerPage}/{itemsOffset}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

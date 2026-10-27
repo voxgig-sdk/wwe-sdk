@@ -1,0 +1,120 @@
+# Entity: gallery
+
+main: kit: entity: gallery: {
+
+  alias: field: {}
+
+  fields: {
+    galleries: {
+      h: "Galleries"
+      n: "galleries"
+      r: true
+      t: "`$ARRAY`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+    parts: [
+      "node_id"
+      "items_per_page"
+      "items_offset"
+    ]
+    sep: "/"
+  }
+
+  name: "gallery"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/gallery-related/{nodeId}/{itemsPerPage}/{itemsOffset}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: 0
+                k: "param"
+                n: "items_offset"
+                or: "itemsOffset"
+                r: true
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 14
+                k: "param"
+                n: "items_per_page"
+                or: "itemsPerPage"
+                r: true
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50011841
+                k: "param"
+                n: "node_id"
+                or: "nodeId"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/gallery-related/{nodeId}/{itemsPerPage}/{itemsOffset}"
+          q: {
+            exist: [
+              "items_offset"
+              "items_per_page"
+              "node_id"
+            ]
+          }
+          r: {
+            param: {
+              itemsOffset: "items_offset"
+              itemsPerPage: "items_per_page"
+              nodeId: "node_id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "gallery-related"
+            }
+            {
+              var: "node_id"
+            }
+            {
+              var: "items_per_page"
+            }
+            {
+              var: "items_offset"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

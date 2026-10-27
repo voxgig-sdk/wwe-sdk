@@ -1,0 +1,26 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      auth: false
+      contact: {
+        name: "l0v3m0n3y/wwe"
+        url: "https://github.com/l0v3m0n3y/wwe"
+      }
+      description: "Unofficial: the JSON endpoints behind www.wwe.com, as wrapped by the Swift client https://github.com/l0v3m0n3y/wwe (src/wwe.swift). Not a documented or supported public API; WWE can change it at any time. Endpoints and parameter order were taken from that client; every schema was taken from live GET probes on 2026-10-23 (no key needed). Only endpoints on https://www.wwe.com are modelled because a spec has one server: the client's search (https://search.wwe.com/api/v1/search, which also worked keyless) and VOD entitlement (https://vod.wwe.com/v1/entitlement/{id}, not probed) calls are omitted. Field types are as observed and are inconsistent between endpoints (nid is a string in highlight-videos and gallery-related but an integer in the playlists). Unverified: the effect of non-zero playlistId/offset values, and the item shape of the always-empty sponsors arrays. Videos in the probes were geo-tagged with country_logic and the highlight titles came back in Arabic, so content may vary by requester location."
+      servers: [
+        {
+          description: "WWE.com website"
+          url: "https://www.wwe.com"
+        }
+      ]
+      summary: "Unofficial: the JSON endpoints behind www.wwe.com, as wrapped by the Swift client https://github.com/l0v3m0n3y/wwe (src/wwe.swift)."
+      title: "WWE API"
+      version: "1.0.0"
+      website: "https://wwe.com"
+    }
+  }
+}
+

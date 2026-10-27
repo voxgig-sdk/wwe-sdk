@@ -1,0 +1,81 @@
+{
+  "existing": {
+    "video": {
+      "VIDEO00": {
+        "id": "VIDEO00",
+        "numSponsors": false,
+        "playlist": [],
+        "source_log": "s53",
+        "sponsors": "s54",
+        "takeover_bg": "s55",
+        "title": "s56",
+        "videos": [],
+        "parent_playlist_id": "PARENT_PLAYLIST01",
+        "playlist_id": "PLAYLIST01",
+        "playlist_offset": "PLAYLIST_OFFSET01",
+        "video_id": "VIDEO01",
+        "video_offset": "VIDEO_OFFSET01"
+      },
+      "VIDEO01": {
+        "id": "VIDEO01",
+        "numSponsors": false,
+        "playlist": [],
+        "source_log": "sa3",
+        "sponsors": "sa4",
+        "takeover_bg": "sa5",
+        "title": "sa6",
+        "videos": [],
+        "parent_playlist_id": "PARENT_PLAYLIST01",
+        "playlist_id": "PLAYLIST01",
+        "playlist_offset": "PLAYLIST_OFFSET01",
+        "video_id": "VIDEO01",
+        "video_offset": "VIDEO_OFFSET01"
+      },
+      "VIDEO02": {
+        "id": "VIDEO02",
+        "numSponsors": false,
+        "playlist": [],
+        "source_log": "sf3",
+        "sponsors": "sf4",
+        "takeover_bg": "sf5",
+        "title": "sf6",
+        "videos": [],
+        "parent_playlist_id": "PARENT_PLAYLIST01",
+        "playlist_id": "PLAYLIST01",
+        "playlist_offset": "PLAYLIST_OFFSET01",
+        "video_id": "VIDEO01",
+        "video_offset": "VIDEO_OFFSET01"
+      }
+    }
+  },
+  "new": {
+    "video": {
+      "video_ref01": {
+        "numSponsors": false,
+        "playlist": [],
+        "source_log": "s143",
+        "sponsors": "s144",
+        "takeover_bg": "s145",
+        "title": "s146",
+        "videos": []
+      }
+    }
+  },
+  "requests": {
+    "GET /api/video-playlist/{videoId}/{playlistId}/{playlistOffset}/{parentPlaylistId}/{videoOffset}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/featured-videos/{videoId}/{playlistId}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/highlight-videos/{videoId}/{playlistId}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

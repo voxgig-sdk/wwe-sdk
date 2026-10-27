@@ -1,0 +1,765 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "WWE API",
+    "version": "1.0.0",
+    "description": "Unofficial: the JSON endpoints behind www.wwe.com, as wrapped by the Swift client https://github.com/l0v3m0n3y/wwe (src/wwe.swift). Not a documented or supported public API; WWE can change it at any time. Endpoints and parameter order were taken from that client; every schema was taken from live GET probes on 2026-10-23 (no key needed). Only endpoints on https://www.wwe.com are modelled because a spec has one server: the client's search (https://search.wwe.com/api/v1/search, which also worked keyless) and VOD entitlement (https://vod.wwe.com/v1/entitlement/{id}, not probed) calls are omitted. Field types are as observed and are inconsistent between endpoints (nid is a string in highlight-videos and gallery-related but an integer in the playlists). Unverified: the effect of non-zero playlistId/offset values, and the item shape of the always-empty sponsors arrays. Videos in the probes were geo-tagged with country_logic and the highlight titles came back in Arabic, so content may vary by requester location.",
+    "contact": {
+      "name": "l0v3m0n3y/wwe",
+      "url": "https://github.com/l0v3m0n3y/wwe"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://www.wwe.com",
+      "description": "WWE.com website"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Superstar"
+    },
+    {
+      "name": "Video"
+    },
+    {
+      "name": "Gallery"
+    }
+  ],
+  "paths": {
+    "/superstar/talent": {
+      "get": {
+        "summary": "List superstars",
+        "description": "The full talent index (about 850 current superstars and legends), name plus profile path.",
+        "operationId": "listSuperstars",
+        "tags": [
+          "Superstar"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Superstar"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/highlight-videos/{videoId}/{playlistId}": {
+      "get": {
+        "summary": "List highlight videos",
+        "description": "Highlight video cards shown next to a video.",
+        "operationId": "listHighlightVideos",
+        "tags": [
+          "Video"
+        ],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "path",
+            "required": true,
+            "description": "Drupal node id of a WWE.com video (the data-nid on video cards).",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 50011841
+          },
+          {
+            "name": "playlistId",
+            "in": "path",
+            "required": true,
+            "description": "Playlist node id; 0 for the default 'Trending videos' playlist.",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "videos": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/HighlightVideo"
+                      }
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Playlist title, e.g. 'Trending videos on WWE.com'."
+                    },
+                    "source_log": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "videos"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/featured-videos/{videoId}/{playlistId}": {
+      "get": {
+        "summary": "List featured videos",
+        "description": "The featured-videos playlist (20 items in probes) for a video.",
+        "operationId": "listFeaturedVideos",
+        "tags": [
+          "Video"
+        ],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "path",
+            "required": true,
+            "description": "Drupal node id of a WWE.com video (the data-nid on video cards).",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 50011841
+          },
+          {
+            "name": "playlistId",
+            "in": "path",
+            "required": true,
+            "description": "Playlist node id; 0 for the default 'Trending videos' playlist.",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sponsors": {
+                      "type": "string",
+                      "description": "Empty string in probes."
+                    },
+                    "numSponsors": {
+                      "type": "boolean"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "playlist": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FeaturedVideo"
+                      }
+                    },
+                    "takeover_bg": {
+                      "type": "string",
+                      "description": "Background image path."
+                    }
+                  },
+                  "required": [
+                    "playlist"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/video-playlist/{videoId}/{playlistId}/{playlistOffset}/{parentPlaylistId}/{videoOffset}": {
+      "get": {
+        "summary": "Get a video playlist",
+        "description": "The playlist (20 items in probes) the video player shows for a video.",
+        "operationId": "getVideoPlaylist",
+        "tags": [
+          "Video"
+        ],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "path",
+            "required": true,
+            "description": "Drupal node id of a WWE.com video (the data-nid on video cards).",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 50011841
+          },
+          {
+            "name": "playlistId",
+            "in": "path",
+            "required": true,
+            "description": "Playlist node id; 0 for the default 'Trending videos' playlist.",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 0
+          },
+          {
+            "name": "playlistOffset",
+            "in": "path",
+            "required": true,
+            "description": "Offset into the playlist; 0 in all probes.",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 0
+          },
+          {
+            "name": "parentPlaylistId",
+            "in": "path",
+            "required": true,
+            "description": "Parent playlist node id; 0 in all probes.",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 0
+          },
+          {
+            "name": "videoOffset",
+            "in": "path",
+            "required": true,
+            "description": "Offset of the video; 0 in all probes.",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sponsors": {
+                      "type": "string",
+                      "description": "Empty string in probes."
+                    },
+                    "numSponsors": {
+                      "type": "boolean"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "playlist": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PlaylistVideo"
+                      }
+                    }
+                  },
+                  "required": [
+                    "playlist"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gallery-related/{nodeId}/{itemsPerPage}/{itemsOffset}": {
+      "get": {
+        "summary": "List related galleries",
+        "description": "Photo galleries related to a node (a video or gallery node id both worked). itemsPerPage and itemsOffset page the list (5/5 returned 5 different galleries).",
+        "operationId": "listRelatedGalleries",
+        "tags": [
+          "Gallery"
+        ],
+        "parameters": [
+          {
+            "name": "nodeId",
+            "in": "path",
+            "required": true,
+            "description": "Drupal node id of a video or gallery.",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 50011841
+          },
+          {
+            "name": "itemsPerPage",
+            "in": "path",
+            "required": true,
+            "description": "Number of galleries to return (the client's default is 14).",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 14
+          },
+          {
+            "name": "itemsOffset",
+            "in": "path",
+            "required": true,
+            "description": "Number of galleries to skip.",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "galleries": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Gallery"
+                      }
+                    }
+                  },
+                  "required": [
+                    "galleries"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Superstar": {
+        "type": "object",
+        "description": "A WWE superstar (current or legend) entry in the talent index.",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "Superstar display name in upper case, e.g. '\"MR. PERFECT\" CURT HENNIG'."
+          },
+          "url": {
+            "type": "string",
+            "description": "Site-relative profile path, e.g. '/superstars/curthennig'."
+          }
+        },
+        "required": [
+          "value",
+          "url"
+        ]
+      },
+      "HighlightVideo": {
+        "type": "object",
+        "description": "A highlight video card.",
+        "properties": {
+          "image": {
+            "type": "string",
+            "description": "HTML <picture> markup for the thumbnail."
+          },
+          "nid": {
+            "type": "string",
+            "description": "Drupal node id of the video (string here)."
+          },
+          "vms_id": {
+            "type": "string"
+          },
+          "playlist_id": {
+            "type": "integer"
+          },
+          "link": {
+            "type": "string",
+            "description": "Site-relative video page path."
+          },
+          "is_network_video": {
+            "type": "boolean"
+          },
+          "network_video_class": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title; localised (Arabic text was returned in the probe)."
+          },
+          "duration": {
+            "type": "string",
+            "description": "'MM:SS'."
+          },
+          "duration_iso": {
+            "type": "string",
+            "description": "ISO-8601 style time, e.g. 'T04M42S'."
+          },
+          "description": {
+            "type": "string"
+          },
+          "video_url": {
+            "type": "string",
+            "description": "Protocol-relative stream URL on vod.wwe.com."
+          },
+          "thumbnail_url": {
+            "type": "string",
+            "description": "Absolute thumbnail URL."
+          },
+          "upload_date": {
+            "type": "string",
+            "description": "'MM/DD/YYYY - HH:MM'."
+          },
+          "countries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ISO country codes the country_logic applies to."
+          },
+          "country_logic": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "nid",
+          "title"
+        ]
+      },
+      "FeaturedVideo": {
+        "type": "object",
+        "description": "A video in the featured-videos playlist.",
+        "properties": {
+          "image": {
+            "type": "string",
+            "description": "Thumbnail path relative to https://www.wwe.com."
+          },
+          "image_uri": {
+            "type": "string",
+            "description": "Drupal file URI of the thumbnail, e.g. 'public://video/thumb/...'."
+          },
+          "file": {
+            "type": "string",
+            "description": "Protocol-relative HLS/MP4 stream URL on vod.wwe.com."
+          },
+          "fid": {
+            "type": "string",
+            "description": "Drupal file id (string)."
+          },
+          "title": {
+            "type": "string"
+          },
+          "nid": {
+            "type": "integer",
+            "description": "Drupal node id of the video; usable as videoId."
+          },
+          "description": {
+            "type": "string"
+          },
+          "vms_id": {
+            "type": "integer"
+          },
+          "wwe_network": {
+            "type": "boolean"
+          },
+          "ads_disabled": {
+            "type": "integer"
+          },
+          "sponsors": {
+            "type": "array",
+            "items": {},
+            "description": "Sponsor entries; always empty in probes, item shape unverified."
+          },
+          "path": {
+            "type": "string",
+            "description": "Site-relative video page path."
+          },
+          "abs_path": {
+            "type": "string",
+            "description": "Absolute video page URL."
+          },
+          "network_logged_in_cta": {
+            "type": "string"
+          },
+          "show_name": {
+            "type": "string",
+            "description": "Show the video belongs to, e.g. 'Raw'."
+          },
+          "episode_name": {
+            "type": "string"
+          },
+          "countries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ISO country codes the country_logic applies to."
+          },
+          "country_logic": {
+            "type": "string",
+            "description": "'exclude', 'include' or empty."
+          },
+          "tracks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Language code, e.g. 'en'."
+                },
+                "file": {
+                  "type": "string",
+                  "description": "Caption file URL."
+                },
+                "kind": {
+                  "type": "string",
+                  "description": "'captions'."
+                }
+              }
+            },
+            "description": "Caption tracks; absent on some videos."
+          },
+          "playlist_title": {
+            "type": "string",
+            "description": "Only on the first item."
+          },
+          "playlist_short_headline": {
+            "type": "string",
+            "description": "Only on the first item."
+          },
+          "playlist_video_strip_headline": {
+            "type": "string",
+            "description": "Only on the first item."
+          },
+          "picture": {
+            "type": "string",
+            "description": "HTML <img> markup for the thumbnail."
+          },
+          "duration": {
+            "type": "string",
+            "description": "Duration as 'MM:SS'."
+          },
+          "playlist_nid": {
+            "type": "integer",
+            "description": "Only on the first item."
+          },
+          "parent_playlist_nid": {
+            "type": "integer",
+            "description": "Only on the first item."
+          },
+          "video_offset": {
+            "type": "integer",
+            "description": "Only on the first item."
+          }
+        },
+        "required": [
+          "nid",
+          "title"
+        ]
+      },
+      "PlaylistVideo": {
+        "type": "object",
+        "description": "A video in a video-playlist response.",
+        "properties": {
+          "image": {
+            "type": "string",
+            "description": "Thumbnail path relative to https://www.wwe.com."
+          },
+          "image_uri": {
+            "type": "string",
+            "description": "Drupal file URI of the thumbnail, e.g. 'public://video/thumb/...'."
+          },
+          "file": {
+            "type": "string",
+            "description": "Protocol-relative HLS/MP4 stream URL on vod.wwe.com."
+          },
+          "fid": {
+            "type": "string",
+            "description": "Drupal file id (string)."
+          },
+          "title": {
+            "type": "string"
+          },
+          "nid": {
+            "type": "integer",
+            "description": "Drupal node id of the video; usable as videoId."
+          },
+          "description": {
+            "type": "string"
+          },
+          "vms_id": {
+            "type": "integer"
+          },
+          "wwe_network": {
+            "type": "boolean"
+          },
+          "ads_disabled": {
+            "type": "integer"
+          },
+          "sponsors": {
+            "type": "array",
+            "items": {},
+            "description": "Sponsor entries; always empty in probes, item shape unverified."
+          },
+          "path": {
+            "type": "string",
+            "description": "Site-relative video page path."
+          },
+          "abs_path": {
+            "type": "string",
+            "description": "Absolute video page URL."
+          },
+          "network_logged_in_cta": {
+            "type": "string"
+          },
+          "show_name": {
+            "type": "string",
+            "description": "Show the video belongs to, e.g. 'Raw'."
+          },
+          "episode_name": {
+            "type": "string"
+          },
+          "countries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ISO country codes the country_logic applies to."
+          },
+          "country_logic": {
+            "type": "string",
+            "description": "'exclude', 'include' or empty."
+          },
+          "tracks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Language code, e.g. 'en'."
+                },
+                "file": {
+                  "type": "string",
+                  "description": "Caption file URL."
+                },
+                "kind": {
+                  "type": "string",
+                  "description": "'captions'."
+                }
+              }
+            },
+            "description": "Caption tracks; absent on some videos."
+          },
+          "playlist_title": {
+            "type": "string",
+            "description": "Only on the first item."
+          },
+          "playlist_short_headline": {
+            "type": "string",
+            "description": "Only on the first item."
+          },
+          "playlist_video_strip_headline": {
+            "type": "string",
+            "description": "Only on the first item."
+          },
+          "picture": {
+            "type": "string",
+            "description": "HTML <img> markup for the thumbnail."
+          },
+          "duration": {
+            "type": "string",
+            "description": "Duration as 'MM:SS'."
+          },
+          "link_url": {
+            "nullable": true,
+            "description": "Always null in every probed response; value type unverified."
+          },
+          "featured_link": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Drupal render array for the playlist card; keys start with '#' (e.g. '#title', '#nid', '#link'). Left untyped."
+          },
+          "playlist_offset": {
+            "type": "string",
+            "description": "Only on the first item (numeric string)."
+          },
+          "playlist_nid": {
+            "type": "string",
+            "description": "Only on the first item (numeric string here, unlike featured-videos)."
+          },
+          "parent_playlist_nid": {
+            "type": "string",
+            "description": "Only on the first item (numeric string)."
+          },
+          "video_offset": {
+            "type": "string",
+            "description": "Only on the first item (numeric string)."
+          },
+          "backfilled": {
+            "type": "boolean",
+            "description": "Only on the first item."
+          }
+        },
+        "required": [
+          "nid",
+          "title"
+        ]
+      },
+      "Gallery": {
+        "type": "object",
+        "description": "A WWE.com photo gallery.",
+        "properties": {
+          "nid": {
+            "type": "string",
+            "description": "Drupal node id of the gallery (string)."
+          },
+          "title": {
+            "type": "string"
+          },
+          "image_alt": {
+            "type": "string"
+          },
+          "teaser_title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "total_images": {
+            "type": "integer"
+          },
+          "link": {
+            "type": "string",
+            "description": "Site-relative gallery path."
+          },
+          "image_fid": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string",
+            "description": "Thumbnail path relative to https://www.wwe.com."
+          },
+          "image_hires": {
+            "type": "string",
+            "description": "High-resolution image path relative to https://www.wwe.com."
+          }
+        },
+        "required": [
+          "nid",
+          "title"
+        ]
+      }
+    }
+  }
+}

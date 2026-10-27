@@ -1,0 +1,72 @@
+<?php
+declare(strict_types=1);
+
+// Wwe SDK utility registration
+
+require_once __DIR__ . '/../core/UtilityType.php';
+require_once __DIR__ . '/Clean.php';
+require_once __DIR__ . '/Done.php';
+require_once __DIR__ . '/MakeError.php';
+require_once __DIR__ . '/FeatureAdd.php';
+require_once __DIR__ . '/FeatureHook.php';
+require_once __DIR__ . '/FeatureInit.php';
+require_once __DIR__ . '/Fetcher.php';
+require_once __DIR__ . '/MakeFetchDef.php';
+require_once __DIR__ . '/MakeContext.php';
+require_once __DIR__ . '/MakeOptions.php';
+require_once __DIR__ . '/MakeRequest.php';
+require_once __DIR__ . '/MakeResponse.php';
+require_once __DIR__ . '/MakeResult.php';
+require_once __DIR__ . '/MakePoint.php';
+require_once __DIR__ . '/MakeSpec.php';
+require_once __DIR__ . '/MakeUrl.php';
+require_once __DIR__ . '/Param.php';
+require_once __DIR__ . '/PrepareAuth.php';
+require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
+require_once __DIR__ . '/PrepareHeaders.php';
+require_once __DIR__ . '/PrepareMethod.php';
+require_once __DIR__ . '/PrepareParams.php';
+require_once __DIR__ . '/PreparePath.php';
+require_once __DIR__ . '/PrepareQuery.php';
+require_once __DIR__ . '/ResultBasic.php';
+require_once __DIR__ . '/ResultBody.php';
+require_once __DIR__ . '/ResultHeaders.php';
+require_once __DIR__ . '/TransformRequest.php';
+require_once __DIR__ . '/TransformResponse.php';
+
+WweUtility::setRegistrar(function (WweUtility $u): void {
+    $u->clean = [WweClean::class, 'call'];
+    $u->clean_add = [WweClean::class, 'add'];
+    $u->clean_explain = [WweDone::class, 'clean_explain'];
+    $u->done = [WweDone::class, 'call'];
+    $u->make_error = [WweMakeError::class, 'call'];
+    $u->feature_add = [WweFeatureAdd::class, 'call'];
+    $u->feature_hook = [WweFeatureHook::class, 'call'];
+    $u->feature_init = [WweFeatureInit::class, 'call'];
+    $u->fetcher = [WweFetcher::class, 'call'];
+    $u->make_fetch_def = [WweMakeFetchDef::class, 'call'];
+    $u->make_context = [WweMakeContext::class, 'call'];
+    $u->make_options = [WweMakeOptions::class, 'call'];
+    $u->make_request = [WweMakeRequest::class, 'call'];
+    $u->make_response = [WweMakeResponse::class, 'call'];
+    $u->make_result = [WweMakeResult::class, 'call'];
+    $u->make_point = [WweMakePoint::class, 'call'];
+    $u->make_spec = [WweMakeSpec::class, 'call'];
+    $u->make_url = [WweMakeUrl::class, 'call'];
+    $u->param = [WweParam::class, 'call'];
+    $u->prepare_auth = [WwePrepareAuth::class, 'call'];
+    $u->prepare_body = [WwePrepareBody::class, 'call'];
+    $u->prepare_headers = [WwePrepareHeaders::class, 'call'];
+    $u->prepare_method = [WwePrepareMethod::class, 'call'];
+    $u->prepare_params = [WwePrepareParams::class, 'call'];
+    $u->prepare_path = [WwePreparePath::class, 'call'];
+    $u->prepare_query = [WwePrepareQuery::class, 'call'];
+    $u->graphql_body = [WweGraphql::class, 'body'];
+    $u->graphql_errors = [WweGraphql::class, 'errors'];
+    $u->result_basic = [WweResultBasic::class, 'call'];
+    $u->result_body = [WweResultBody::class, 'call'];
+    $u->result_headers = [WweResultHeaders::class, 'call'];
+    $u->transform_request = [WweTransformRequest::class, 'call'];
+    $u->transform_response = [WweTransformResponse::class, 'call'];
+});

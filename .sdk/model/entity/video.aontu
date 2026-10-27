@@ -1,0 +1,313 @@
+# Entity: video
+
+main: kit: entity: video: {
+
+  alias: field: {}
+
+  fields: {
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    numSponsors: {
+      h: "Num Sponsors"
+      n: "numSponsors"
+      r: false
+      t: "`$BOOLEAN`"
+    }
+    playlist: {
+      h: "Playlist"
+      n: "playlist"
+      r: true
+      t: "`$ARRAY`"
+    }
+    source_log: {
+      h: "Source Log"
+      n: "source_log"
+      r: false
+      t: "`$STRING`"
+    }
+    sponsors: {
+      h: "Sponsors"
+      n: "sponsors"
+      r: false
+      sh: "Empty string in probes."
+      t: "`$STRING`"
+    }
+    takeover_bg: {
+      h: "Takeover Bg"
+      n: "takeover_bg"
+      r: false
+      sh: "Background image path."
+      t: "`$STRING`"
+    }
+    title: {
+      h: "Title"
+      n: "title"
+      r: false
+      sh: "Playlist title, e.g."
+      t: "`$STRING`"
+    }
+    videos: {
+      h: "Videos"
+      n: "videos"
+      r: true
+      t: "`$ARRAY`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+    parts: [
+      "video_id"
+      "playlist_id"
+      "playlist_offset"
+      "parent_playlist_id"
+      "video_offset"
+    ]
+    sep: "/"
+  }
+
+  name: "video"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/video-playlist/{videoId}/{playlistId}/{playlistOffset}/{parentPlaylistId}/{videoOffset}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: 0
+                k: "param"
+                n: "parent_playlist_id"
+                or: "parentPlaylistId"
+                r: true
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 0
+                k: "param"
+                n: "playlist_id"
+                or: "playlistId"
+                r: true
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 0
+                k: "param"
+                n: "playlist_offset"
+                or: "playlistOffset"
+                r: true
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50011841
+                k: "param"
+                n: "video_id"
+                or: "videoId"
+                r: true
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 0
+                k: "param"
+                n: "video_offset"
+                or: "videoOffset"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/video-playlist/{videoId}/{playlistId}/{playlistOffset}/{parentPlaylistId}/{videoOffset}"
+          q: {
+            exist: [
+              "parent_playlist_id"
+              "playlist_id"
+              "playlist_offset"
+              "video_id"
+              "video_offset"
+            ]
+          }
+          r: {
+            param: {
+              parentPlaylistId: "parent_playlist_id"
+              playlistId: "playlist_id"
+              playlistOffset: "playlist_offset"
+              videoId: "video_id"
+              videoOffset: "video_offset"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "video-playlist"
+            }
+            {
+              var: "video_id"
+            }
+            {
+              var: "playlist_id"
+            }
+            {
+              var: "playlist_offset"
+            }
+            {
+              var: "parent_playlist_id"
+            }
+            {
+              var: "video_offset"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /api/featured-videos/{videoId}/{playlistId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: 0
+                k: "param"
+                n: "playlist_id"
+                or: "playlistId"
+                r: true
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50011841
+                k: "param"
+                n: "video_id"
+                or: "videoId"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/featured-videos/{videoId}/{playlistId}"
+          q: {
+            exist: [
+              "playlist_id"
+              "video_id"
+            ]
+          }
+          r: {
+            param: {
+              playlistId: "playlist_id"
+              videoId: "video_id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "featured-videos"
+            }
+            {
+              var: "video_id"
+            }
+            {
+              var: "playlist_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /api/highlight-videos/{videoId}/{playlistId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: 0
+                k: "param"
+                n: "playlist_id"
+                or: "playlistId"
+                r: true
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50011841
+                k: "param"
+                n: "video_id"
+                or: "videoId"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/highlight-videos/{videoId}/{playlistId}"
+          q: {
+            exist: [
+              "playlist_id"
+              "video_id"
+            ]
+          }
+          r: {
+            param: {
+              playlistId: "playlist_id"
+              videoId: "video_id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "highlight-videos"
+            }
+            {
+              var: "video_id"
+            }
+            {
+              var: "playlist_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

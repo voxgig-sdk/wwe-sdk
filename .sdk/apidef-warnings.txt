@@ -1,0 +1,11 @@
+{
+  point: "warning"
+  note: "Points GET /api/featured-videos/{videoId}/{playlistId} and GET /api/highlight-videos/{videoId}/{playlistId} on entity=video op=load have the same selector (exist: playlist_id,video_id), so only GET /api/featured-videos/{videoId}/{playlistId} is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "video"
+  op: "load"
+  points: [
+    "GET /api/featured-videos/{videoId}/{playlistId}"
+    "GET /api/highlight-videos/{videoId}/{playlistId}"
+  ]
+
+}

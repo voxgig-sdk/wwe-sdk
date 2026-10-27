@@ -1,0 +1,33 @@
+{
+  "existing": {
+    "superstar": {
+      "SUPERSTAR00": {
+        "url": "s14",
+        "value": "s15"
+      },
+      "SUPERSTAR01": {
+        "url": "s28",
+        "value": "s29"
+      },
+      "SUPERSTAR02": {
+        "url": "s3c",
+        "value": "s3d"
+      }
+    }
+  },
+  "new": {
+    "superstar": {
+      "superstar_ref01": {
+        "url": "s50",
+        "value": "s51"
+      }
+    }
+  },
+  "requests": {
+    "GET /superstar/talent": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

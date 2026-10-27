@@ -1,0 +1,34 @@
+# BasicGalleryFlow
+
+main: kit: flow: BasicGalleryFlow:
+{
+  entity: "gallery",
+  kind: "basic",
+  name: "BasicGalleryFlow",
+  step: [
+    {
+      i: {
+        ref: "gallery_ref01",
+        srcdatavar: "gallery_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "gallery01",
+        items_per_page: "items_per_page01",
+        node_id: "node01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-gallery_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicGalleryFlow"
+}

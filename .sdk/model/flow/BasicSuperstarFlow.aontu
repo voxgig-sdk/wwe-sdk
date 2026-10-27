@@ -1,0 +1,22 @@
+# BasicSuperstarFlow
+
+main: kit: flow: BasicSuperstarFlow:
+{
+  entity: "superstar",
+  kind: "basic",
+  name: "BasicSuperstarFlow",
+  step: [
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "superstar_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicSuperstarFlow"
+}

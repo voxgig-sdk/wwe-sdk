@@ -1,0 +1,33 @@
+# BasicVideoFlow
+
+main: kit: flow: BasicVideoFlow:
+{
+  entity: "video",
+  kind: "basic",
+  name: "BasicVideoFlow",
+  step: [
+    {
+      i: {
+        ref: "video_ref01",
+        srcdatavar: "video_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "video01",
+        video_id: "video01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-video_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicVideoFlow"
+}
